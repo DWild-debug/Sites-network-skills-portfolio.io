@@ -1,0 +1,17 @@
+
+# Anki Cards
+
+| Question | Answer |
+|---|---|
+| What layer does a switch mainly operate at? | Layer 2 |
+| What does a switch use to forward frames? | Destination MAC address |
+| How does a switch learn MAC addresses? | From source MAC addresses |
+| What command shows MAC table? | `show mac address-table` |
+| What command shows interface status? | `show interfaces status` |
+| What command saves configuration? | `write memory` |
+| What is ARP used for? | Mapping IP to MAC |
+| What is a management IP? | Remote management IP |
+| What command disables interface? | `shutdown` |
+| What command enables interface? | `no shutdown` |
+| What does administratively down mean? | Interface manually disabled |
+| Difference between running and startup config? | Running is active; startup loads after reboot |

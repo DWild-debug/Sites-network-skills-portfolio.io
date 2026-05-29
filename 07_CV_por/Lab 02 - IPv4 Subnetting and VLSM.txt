@@ -1,0 +1,144 @@
+1. Goal
+
+The goal of this lab was to design and test an IPv4 addressing plan for a small office network using VLSM (Variable Length Subnet Masking). The lab includes subnet calculation, gateway assignment, network segmentation, connectivity testing, and troubleshooting of common IP configuration issues.
+
+2. Scenario
+
+A small company requires a new IPv4 addressing scheme for several departments. The network administrator must divide the available network into multiple subnets with different host capacities using VLSM.
+
+Departments and requirements:
+
+Department	Required Hosts
+Administration	50
+IT Department	25
+Sales		12
+Management	6
+
+Available network: 192.168.10.0/24
+
+Tasks:
+
+Design an efficient VLSM addressing plan
+Assign subnet masks and default gateways
+Configure PCs and routers
+Verify connectivity between networks
+Troubleshoot possible addressing issues
+3. IP Addressing Plan
+Department		Network Address		Subnet Mask		Usable Host Range		Broadcast Address	Gateway
+Administration		192.168.10.0/26		255.255.255.192		192.168.10.1 – 192.168.10.62	192.168.10.63		192.168.10.1
+IT Department		192.168.10.64/27	255.255.255.224		192.168.10.65 – 192.168.10.94	192.168.10.95		192.168.10.65
+Sales			192.168.10.96/28	255.255.255.240		192.168.10.97 – 192.168.10.110	192.168.10.111		192.168.10.97
+Management		192.168.10.112/29	255.255.255.248		192.168.10.113 – 192.168.10.118	192.168.10.119		192.168.10.113
+4. Topology
+
+Network topology consists of:
+
+1 Router
+1 Switch
+4 Department VLANs/Subnets
+Multiple PCs connected to each department
+
+Example structure:
+
+                Router
+                   |
+                Switch
+     --------------------------------
+     |         |         |          |
+ Admin      IT Dept     Sales    Management
+5. Configuration
+Router Configuration Example
+enable
+configure terminal
+
+interface g0/0
+ip address 192.168.10.1 255.255.255.192
+no shutdown
+
+interface g0/1
+ip address 192.168.10.65 255.255.255.224
+no shutdown
+
+interface g0/2
+ip address 192.168.10.97 255.255.255.240
+no shutdown
+
+interface g0/3
+ip address 192.168.10.113 255.255.255.248
+no shutdown
+PC Configuration Example
+
+Administration PC:
+
+IP Address: 192.168.10.10
+Subnet Mask: 255.255.255.192
+Default Gateway: 192.168.10.1
+
+IT Department PC:
+
+IP Address: 192.168.10.70
+Subnet Mask: 255.255.255.224
+Default Gateway: 192.168.10.65
+6. Verification
+
+Verification steps performed:
+
+Ping Test
+ping 192.168.10.70
+ping 192.168.10.97
+Verification Results
+Test	Result
+PC to Gateway	Successful
+Inter-subnet Communication	Successful
+Router Interface Status	Up
+Packet Loss	0%
+Commands Used
+show ip interface brief
+show running-config
+show ip route
+7. Troubleshooting Scenarios
+Scenario 1 – Incorrect Subnet Mask
+
+Problem:
+A PC in the Sales department could not communicate with other devices.
+
+Cause:
+Incorrect subnet mask configured on the PC.
+
+Solution:
+Changed subnet mask from:
+
+255.255.255.0
+
+to:
+
+255.255.255.240
+Scenario 2 – Wrong Default Gateway
+
+Problem:
+PC could access local devices but not remote subnets.
+
+Cause:
+Incorrect default gateway address.
+
+Solution:
+Configured correct gateway:
+
+192.168.10.97
+Scenario 3 – Interface Shutdown
+
+Problem:
+No connectivity between router and switch.
+
+Cause:
+Router interface was administratively down.
+
+Solution:
+
+interface g0/1
+no shutdown
+8. Lessons Learned
+
+I learned how to calculate subnet ranges, apply VLSM for efficient IP allocation, choose proper subnet masks based on host requirements, assign default gateways, and troubleshoot connectivity problems caused by incorrect subnet masks, disabled interfaces, or wrong gateway addresses.
+
+The lab also improved my understanding of network segmentation, router configuration, and IPv4 connectivity verification using Cisco IOS commands.

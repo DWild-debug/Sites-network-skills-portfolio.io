@@ -1,0 +1,22 @@
+1. Physical layer checks
+show interfaces status
+✅ 2. Interface config check
+show running-config interface fa0/x
+✅ 3. MAC learning
+show mac address-table
+✅ 4. IP check (PC side)
+ipconfig
+✅ 5. ARP verification
+arp -a
+✅ 6. Connectivity test
+ping
+✅ 7. Switch management check
+show ip interface brief
+✅ 8. Full config check
+show running-config
+show startup-config
+
+show running-config
+show version
+show interfaces status
+write memory

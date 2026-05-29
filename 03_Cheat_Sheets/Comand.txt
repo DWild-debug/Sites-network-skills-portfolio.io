@@ -1,0 +1,20 @@
+sudo apt update
+sudo apt upgrade -y
+
+Встановити базові утиліти: sudo apt install -y net-tools traceroute dnsutils curl wget tcpdump
+
+ip addr
+ip route
+ping -c 4 8.8.8.8
+ping -c 4 google.com
+traceroute google.com
+dig google.com
+curl -I https://google.com
+ss -tulpen
+ip addr - показує IP-адреси інтерфейсів
+ip route - показує routing table
+ping - перевіряє доступність хоста
+traceroute - показує шлях до хоста
+dig - перевіряє DNS
+curl -I - перевіряє HTTP/HTTPS відповідь
+ss -tulpen - показує відкриті порти і процеси
