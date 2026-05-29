@@ -1,0 +1,233 @@
+Day 2 — Tuesday (1 Hour)
+Topic
+
+VLAN Creation and Access Ports
+
+1. Topology Overview
+2. VLAN Concept
+What is VLAN?
+
+VLAN = Virtual Local Area Network.
+
+A VLAN separates devices into independent Layer 2 broadcast domains.
+
+Even if devices are connected to the same physical switch, different VLANs behave like separate switches.
+
+VLAN Logic
+3. Access Port Concept
+Access Port
+
+An access port belongs to only ONE VLAN.
+
+Typical use:
+
+PC
+Printer
+IP phone
+Camera
+Access Port Visual
+4. Configuration — SW1
+Create VLANs
+enable
+configure terminal
+
+hostname SW1
+
+vlan 10
+ name OFFICE
+exit
+
+vlan 20
+ name VOICE
+exit
+
+vlan 30
+ name GUEST
+exit
+
+vlan 99
+ name MGMT
+exit
+5. Configure Access Ports
+PC1 → VLAN 10
+interface fastEthernet0/1
+ description PC1 - Office
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+PC2 → VLAN 10
+interface fastEthernet0/2
+ description PC2 - Office
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+PC3 → VLAN 20
+interface fastEthernet0/3
+ description PC3 - Voice
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+exit
+PC4 → VLAN 30
+interface fastEthernet0/4
+ description PC4 - Guest
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+exit
+
+end
+write memory
+6. IP Addressing
+Device	IP Address	Mask	VLAN
+PC1	192.168.10.10	255.255.255.0	10
+PC2	192.168.10.20	255.255.255.0	10
+PC3	192.168.20.10	255.255.255.0	20
+PC4	192.168.30.10	255.255.255.0	30
+
+Gateway:
+
+NOT configured yet
+7. Verification Commands
+Check VLANs
+show vlan brief
+
+Expected:
+
+VLAN 10 → Fa0/1 Fa0/2
+VLAN 20 → Fa0/3
+VLAN 30 → Fa0/4
+Check Port Status
+show interfaces status
+Check Full Configuration
+show running-config
+8. Connectivity Tests
+
+From PC1:
+
+ping 192.168.10.20
+ping 192.168.20.10
+ping 192.168.30.10
+9. Expected Results
+Test	Result	Why
+PC1 → PC2	SUCCESS	Same VLAN and same subnet
+PC1 → PC3	FAIL	Different VLANs, no routing
+PC1 → PC4	FAIL	Different VLANs, no routing
+10. Why Different VLANs Cannot Communicate
+
+Without a router or Layer 3 switch:
+
+VLANs are isolated
+No inter-VLAN routing exists
+11. Important Commands Summary
+Task	Command
+Create VLAN	vlan 10
+Name VLAN	name OFFICE
+Set access mode	switchport mode access
+Assign VLAN	switchport access vlan 10
+View VLANs	show vlan brief
+12. Self-Check Answers
+1. Which command creates a VLAN?
+vlan 10
+2. Which command shows VLANs?
+show vlan brief
+3. Which command assigns a port to VLAN?
+switchport access vlan 10
+4. Why can PC1 reach PC2 but not PC3?
+
+Because:
+
+PC1 and PC2 are in VLAN 10
+PC3 is in VLAN 20
+Inter-VLAN routing does not exist yet
+5. What happens if PC3 is connected to VLAN 10 port but keeps IP 192.168.20.10?
+
+Important logic:
+
+Physically PC3 will be inside VLAN 10
+But IP address still belongs to subnet 192.168.20.0/24
+Devices in VLAN 10 use subnet 192.168.10.0/24
+
+Result:
+
+Communication will fail
+Wrong IP subnet for that VLAN
+Layer 2 and Layer 3 logic do not match
+13. Final Leader-Level Summary
+VLAN
+
+Logical Layer 2 separation.
+
+Access Port
+
+Port that belongs to one VLAN only.
+
+Same VLAN
+
+Devices can communicate directly.
+
+Different VLANs
+
+Need routing:
+
+Router
+or
+Layer 3 switch
+Key Understanding
+
+Switches forward frames based on VLAN membership.
+IP subnet design must match VLAN design.
+
+12. Self-Check Answers
+1. Which command creates a VLAN?
+vlan 10
+2. Which command shows VLANs?
+show vlan brief
+3. Which command assigns a port to VLAN?
+switchport access vlan 10
+4. Why can PC1 reach PC2 but not PC3?
+
+Because:
+
+PC1 and PC2 are in VLAN 10
+PC3 is in VLAN 20
+Inter-VLAN routing does not exist yet
+5. What happens if PC3 is connected to VLAN 10 port but keeps IP 192.168.20.10?
+
+Important logic:
+
+Physically PC3 will be inside VLAN 10
+But IP address still belongs to subnet 192.168.20.0/24
+Devices in VLAN 10 use subnet 192.168.10.0/24
+
+Result:
+
+Communication will fail
+Wrong IP subnet for that VLAN
+Layer 2 and Layer 3 logic do not match
+13. Final Leader-Level Summary
+VLAN
+
+Logical Layer 2 separation.
+
+Access Port
+
+Port that belongs to one VLAN only.
+
+Same VLAN
+
+Devices can communicate directly.
+
+Different VLANs
+
+Need routing:
+
+Router
+or
+Layer 3 switch
+Key Understanding
+
+Switches forward frames based on VLAN membership.
+IP subnet design must match VLAN design.

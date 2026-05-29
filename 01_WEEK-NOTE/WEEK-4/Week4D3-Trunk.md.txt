@@ -1,0 +1,97 @@
+Questions & Answers (Expanded)
+1. Why do we need a trunk between switches?
+
+A trunk link is required when we need to transport traffic from multiple VLANs over a single physical connection between switches.
+
+At Layer 2, a switch port in access mode belongs to only one VLAN and does not carry VLAN tags. If we connect two switches using only access ports, then:
+
+only one VLAN can pass between them
+all other VLANs are isolated per switch
+VLAN segmentation breaks across the network
+
+A trunk solves this by using 802.1Q tagging:
+
+each Ethernet frame is tagged with VLAN ID
+the receiving switch reads the tag and forwards it to the correct VLAN
+multiple VLANs can share the same physical link
+
+So logically:
+
+Access link = single VLAN, untagged frames
+Trunk link = multiple VLANs, tagged frames
+
+This is what allows VLANs to scale across multiple switches while keeping a single physical uplink.
+
+2. What happens if VLAN 20 is not allowed on the trunk?
+
+If VLAN 20 is not included in the allowed VLAN list on the trunk, then:
+
+frames tagged with VLAN 20 are dropped on the trunk interface
+SW1 and SW2 cannot exchange VLAN 20 traffic
+VLAN 20 becomes “split” between switches
+
+Result:
+
+PC3 (SW1, VLAN 20) cannot reach PC4 (SW2, VLAN 20)
+even though IP addressing is correct
+even though VLAN 20 exists on both switches
+
+Important concept:
+👉 VLAN must exist AND be allowed on trunk AND be active on ports to work end-to-end
+
+So trunk filtering effectively controls which broadcast domains are extended between switches.
+
+3. Which command verifies trunk status?
+show interfaces trunk
+
+This command shows:
+
+which interfaces are operating in trunk mode
+encapsulation type (usually 802.1Q)
+native VLAN (untagged VLAN)
+allowed VLAN list
+active VLANs currently passing through the trunk
+
+Why it matters:
+
+You use it to confirm:
+
+trunk is actually UP
+VLANs are not accidentally filtered
+negotiation is correct (or not applicable on some switches)
+
+Typical troubleshooting:
+
+interface is up but no VLANs passing → check allowed VLAN list
+trunk not formed → check mode (dynamic auto/desirable vs manual trunk)
+4. Which command shows VLAN membership of ports?
+show vlan brief
+
+This command displays:
+
+all VLANs configured on the switch
+which access ports belong to each VLAN
+VLAN names and status (active/inactive)
+
+Important limitation:
+    it only shows access port membership
+    trunk ports are NOT shown as part of VLAN membership here
+
+So this command is used to verify:
+
+    PC1 is correctly in VLAN 10
+    PC3 is correctly in VLAN 20
+    no misassigned access ports
+
+For trunk validation, you must combine it with: show interfaces trunk
+5. Why can PC1 ping PC2 even though they are on different switches?
+    PC1 and PC2 can communicate because they are in the same VLAN (VLAN 10), which forms a single Layer 2 broadcast domain across both switches.
+What happens step-by-step:
+    PC1 sends an ICMP Echo Request (ping)
+    SW1 receives the frame on access port Fa0/1
+    SW1 recognizes VLAN 10 membership
+    SW1 forwards the frame to SW2 via the trunk
+    frame is encapsulated with VLAN 10 tag (802.1Q)
+    SW2 receives the tagged frame on Gi0/1 trunk
+    SW2 removes VLAN tag and forwards it to Fa0/1 (PC2)
+    PC2 replies using the same path in reverse
