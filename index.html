@@ -3,25 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Portfolio</title>
-
+    <title>Network Engineering Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
 
-    <div class="container">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🌐 NetPortfolio</h2>
+                <span class="badge">v1.0</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h3>📅 Weekly Notes</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-file="./01_WEEK-NOTE/Week-1/Week_01_Notes.md">Week 1: Notes</a></li>
+                        <li><a href="#" class="nav-link" data-file="./01_WEEK-NOTE/Week-1/WIRESHARK FLOW.md">Week 1: Wireshark Flow</a></li>
+                        <li><a href="#" class="nav-link" data-file="./01_WEEK-NOTE/Week-1/TROUBLESHOOTING.md">Week 1: Troubleshooting</a></li>
+                    </ul>
+                </div>
 
-        <h1>My Network Portfolio</h1>
+                <div class="nav-section">
+                    <h3>🔬 Labs & Cheats</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-file="./02_Labs/Lab_01_Basic_LAN.md">Lab 01: Basic LAN</a></li>
+                        <li><a href="#" class="nav-link" data-file="./03_Cheat_Sheets/Network_Flow.md">Network Flow Cheat Sheet</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
 
-        <p>GitHub Pages is working correctly.</p>
-
-        <button id="btn">
-            Test JavaScript
-        </button>
-
+        <main class="content-area">
+            <div id="loading-indicator" class="hidden">Завантаження...</div>
+            <article id="markdown-viewer" class="markdown-body">
+                <h1>Вітаю у моєму портфоліо!</h1>
+                <p>Оберіть будь-який документ у лівому меню для перегляду. Контент завантажиться динамічно без перезавантаження сторінки.</p>
+            </article>
+        </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
